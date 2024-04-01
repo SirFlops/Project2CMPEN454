@@ -1,0 +1,28 @@
+ParamOneObject = matfile('Parameters_V1.mat');
+ParamTwoObject = matfile('Parameters_V2.mat');
+
+
+positionOne = getfield(ParamOneObject.Parameters(1,1),'position')
+rotationOne = getfield(ParamOneObject.Parameters(1,1),'Rmat')
+KmatrixOne = getfield(ParamOneObject.Parameters(1,1),'Kmat')
+SMatrix = [1 0 0 -positionOne(1);0 1 0 -positionOne(2); 0 0 1 -positionOne(3); 0 0 0 1];
+foclength = getfield(ParamOneObject.Parameters(1,1),'foclen')
+RMatrix = [rotationOne(1,1) rotationOne(1,2) rotationOne(1,3) 0;rotationOne(2,1) rotationOne(2,2) rotationOne(2,3) 0;rotationOne(3,1) rotationOne(3,2) rotationOne(3,3) 0;0 0 0 1]
+FocalMatrix = [foclength 0 0 0; 0 foclength 0 0;0 0 1 0]
+
+
+WorldtoCamMatrix = KmatrixOne * FocalMatrix * RMatrix * SMatrix;
+mocapData = matfile('mocapPoints3D.mat');
+mocapPosition = mocapData.pts3D;
+
+CamOneCoord = zeros(3,39)
+
+mocapPosition(:,1)
+
+for i=1:N 
+    U = mocapPosition(1,i)
+    V = mocapPosition(2,i)
+    W = mocapPosition(3,i)
+    PixCoord = WorldtoCamMatrix * [U V W 1]
+    
+end
