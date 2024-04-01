@@ -1,12 +1,13 @@
-worldCoordNew = [1539.28; 958.096; 1543.46; 1 ];
-CamLocation = [4409.35745775187;-5557.48364224849;-1900.90609939507;0];
+worldCoordNew = mocapPosition(:,1);
+CamLocation = [4409.35745775187;-5557.48364224849;-1900.90609939507];
 
 Transform = worldCoordNew - CamLocation;
-XYZ = RMatrix * Transform;
-%PerspectiveProj = FocalMatrix * XYZ;
-%XYZBalanced = XYZ/XYZ(3);
-XYZThree = [XYZ(1); XYZ(2); XYZ(3)];
-pixloc = KmatrixOne * XYZThree;
+XYZ = rotationOne * Transform;
+PerspectiveProj = FocalMatrix * XYZ;
+
+XYZBalanced = XYZ/XYZ(3);
+
+pixloc = KmatrixOne * XYZBalanced;
 
 
 
